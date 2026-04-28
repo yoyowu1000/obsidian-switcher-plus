@@ -285,7 +285,11 @@ export class RelatedItemsHandler extends Handler<
       const destUnresolved = new Map<string, RelatedItemsInfo>();
       const destFiles = new Map<TFile, RelatedItemsInfo>();
       const { metadataCache } = this.app;
-      const outgoingLinks = metadataCache.getFileCache(sourceFile).links ?? [];
+      const fileCache = metadataCache.getFileCache(sourceFile);
+      const outgoingLinks = [
+        ...(fileCache?.links ?? []),
+        ...(fileCache?.frontmatterLinks ?? []),
+      ];
       const incrementCount = (info: RelatedItemsInfo) =>
         info ? !!(info.count += 1) : false;
 

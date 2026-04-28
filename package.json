@@ -1,18 +1,18 @@
 {
-  "name": "obsidian-switcher-plus",
-  "version": "6.1.1",
-  "description": "Enhanced Quick Switcher plugin for Obsidian.md.",
+  "name": "obsidian-switcher-plus-yuanyowwu-fork",
+  "version": "6.1.2-yw.1",
+  "description": "Enhanced Quick Switcher plugin for Obsidian.md. Yuanyowwu fork.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/darlal/obsidian-switcher-plus"
+    "url": "https://github.com/yoyowu1000/obsidian-switcher-plus"
   },
-  "main": "./dist/darlal-switcher-plus/main.js",
+  "main": "./dist/yuanyowwu-switcher-plus/main.js",
   "engines": {
     "node": "22.21.1"
   },
   "scripts": {
     "bundle": "rollup --bundleConfigAsCjs -c rollup.config.js",
-    "package-plugin": "copyfiles ./styles.css ./manifest.json ./versions.json ./dist/darlal-switcher-plus",
+    "package-plugin": "copyfiles ./styles.css ./manifest.json ./versions.json ./dist/yuanyowwu-switcher-plus",
     "build": "run-s lint build:fast",
     "build:fast": "run-s bundle package-plugin",
     "build:watch": "onchange 'src/**/*.ts' -- npm run build:fast",

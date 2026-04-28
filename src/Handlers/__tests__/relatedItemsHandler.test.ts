@@ -86,6 +86,13 @@ function makeBacklink(
   return backlink;
 }
 
+function makeFrontmatterLink(link: string, key = 'related.0') {
+  return {
+    ...makeLink(link, null),
+    key,
+  };
+}
+
 describe('relatedItemsHandler', () => {
   const rootFixture = rootSplitEditorFixtures[0];
   let settings: SwitcherPlusSettings;
@@ -848,9 +855,67 @@ describe('relatedItemsHandler', () => {
       mockMetadataCache.getFirstLinkpathDest.mockReset();
     });
 
+    test('that frontmatter links are included as outgoing links', () => {
+      mockMetadataCache.getFirstLinkpathDest
+        .calledWith(file2.path, file1.path)
+        .mockReturnValue(file2);
+      mockMetadataCache.getFileCache.mockReturnValueOnce({
+        links: [],
+        frontmatterLinks: [makeFrontmatterLink(file2.path)],
+      });
+
+      const results: RelatedItemsInfo[] = [];
+      sut.addOutgoingLinks(file1, results);
+
+      expect(results).toHaveLength(1);
+      expect(results[0].file).toBe(file2);
+      expect(results[0].relationType).toBe(RelationType.OutgoingLink);
+      expect(results[0].count).toBe(1);
+      expect(mockMetadataCache.getFirstLinkpathDest).toHaveBeenCalledWith(
+        file2.path,
+        file1.path,
+      );
+
+      mockMetadataCache.getFirstLinkpathDest.mockReset();
+    });
+
+    test('that body and frontmatter links to the same file are deduplicated and counted', () => {
+      mockMetadataCache.getFirstLinkpathDest
+        .calledWith(file2.path, file1.path)
+        .mockReturnValue(file2);
+      mockMetadataCache.getFileCache.mockReturnValueOnce({
+        links: [makeLink(file2.path, null)],
+        frontmatterLinks: [makeFrontmatterLink(file2.path)],
+      });
+
+      const results: RelatedItemsInfo[] = [];
+      sut.addOutgoingLinks(file1, results);
+
+      expect(results).toHaveLength(1);
+      expect(results[0].file).toBe(file2);
+      expect(results[0].count).toBe(2);
+
+      mockMetadataCache.getFirstLinkpathDest.mockReset();
+    });
+
     test('that a single item is added for an unresolved link even if it is referenced multiple times', () => {
       mockMetadataCache.getFileCache.mockReturnValueOnce({
         links: [makeLink('no exist', null), makeLink('no exist', null)],
+      });
+
+      const results: RelatedItemsInfo[] = [];
+      sut.addOutgoingLinks(file1, results);
+
+      expect(results).toHaveLength(1);
+      expect(results[0].unresolvedText).toBe('no exist');
+      expect(results[0].count).toBe(2);
+      expect(mockMetadataCache.getFileCache).toHaveBeenCalledWith(file1);
+    });
+
+    test('that body and frontmatter links to the same unresolved target are deduplicated and counted', () => {
+      mockMetadataCache.getFileCache.mockReturnValueOnce({
+        links: [makeLink('no exist', null)],
+        frontmatterLinks: [makeFrontmatterLink('no exist')],
       });
 
       const results: RelatedItemsInfo[] = [];
