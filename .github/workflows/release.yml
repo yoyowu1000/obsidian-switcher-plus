@@ -6,7 +6,7 @@ on:
     - '*'
 
 env:
-  PLUGIN_NAME: yuanyowwu-switcher-plus
+  PLUGIN_NAME: yoyo-switcher-plus
 
 jobs:
   build-publish:

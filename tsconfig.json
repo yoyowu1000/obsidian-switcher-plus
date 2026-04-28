@@ -14,7 +14,7 @@
       "./src/types",
       "./node_modules/@types"
     ],
-    "outDir": "./dist/yuanyowwu-switcher-plus/tsc-output",
+    "outDir": "./dist/yoyo-switcher-plus/tsc-output",
     "noEmit": true,
     "inlineSourceMap": true,
     "inlineSources": true,

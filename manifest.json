@@ -1,10 +1,10 @@
 {
-  "id": "yuanyowwu-switcher-plus",
-  "name": "Quick Switcher++ (yuanyowwu fork)",
-  "version": "6.1.2-yw.1",
+  "id": "yoyo-switcher-plus",
+  "name": "Quick Switcher++ (yoyo fork)",
+  "version": "6.1.3-yoyo.1",
   "minAppVersion": "1.12.0",
   "description": "Enhanced Quick Switcher, search open panels, and symbols. Fork with frontmatter links in related outgoing links.",
-  "author": "darlal, yuanyowwu",
+  "author": "darlal, yoyo",
   "authorUrl": "https://github.com/yoyowu1000/obsidian-switcher-plus",
   "isDesktopOnly": false
 }
